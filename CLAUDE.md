@@ -16,14 +16,17 @@ npm run preview   # Preview production build
 
 ## Architecture
 
-This is a single-file React app — all logic lives in [src/App.jsx](src/App.jsx). There are no separate components, routing, or backend; state is in-memory only (no persistence).
+React app with no routing or backend; state is in-memory only (no persistence).
+
+**Component tree:**
+- `App` — holds the `transactions` array in state, passes data and callbacks down
+  - `Summary` — receives `transactions`, computes and displays totals (income, expenses, balance)
+  - `TransactionForm` — owns its own form state, calls `onAdd(transaction)` prop on submit
+  - `TransactionList` — owns filter state, receives `transactions` and renders the filtered table
 
 **Transaction data shape:**
 ```js
-{ id, description, amount, type: "income"|"expense", category, date }
+{ id, description, amount: number, type: "income"|"expense", category, date }
 ```
 
-**Known issues (intentional for the course):**
-- `amount` is stored as a string, causing string concatenation instead of numeric addition in the income/expense/balance totals.
-- The UI has styling and layout issues.
-- Code is not split into components.
+Categories are defined as a constant in both `TransactionForm` and `TransactionList`: `["food", "housing", "utilities", "transport", "entertainment", "salary", "other"]`.
